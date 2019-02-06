@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Meter": {
+      "commandName": "Project",
+      "commandLineArgs": "100 10"
+    }
+  }
+}

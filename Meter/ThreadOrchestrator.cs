@@ -12,6 +12,8 @@ namespace Meter
         private int _remaining;
         private readonly Func<TResult> _action;
 
+        private SemaphoreSlim _semaphore = new SemaphoreSlim(1,1);
+
         public ThreadOrchestrator(int n, int concurrent, Func<TResult> action)
         {
             N = n;
