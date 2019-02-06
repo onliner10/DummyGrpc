@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
 using DummyGrpc;
 using Grpc.Core;
 
@@ -6,17 +11,12 @@ namespace Meter
 {
     class Program
     {
-        static void Main(string[] args)
+        public static Func<Measurement> GrpcTest()
         {
-            var n = int.Parse(args[0]);
-            var concurrent = int.Parse(args[1]);
-
-            var requestsDone = 0;
             var channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
-
             var client = new DummyGrpcServer.DummyGrpcServerClient(channel);
 
-            var orchestrator = new ThreadOrchestrator<Measurement>(n, concurrent, () =>
+            return () =>
             {
                 var measurementStart = DateTimeOffset.UtcNow;
                 try
@@ -43,10 +43,31 @@ namespace Meter
                 }
 
                 return new Measurement(measurementStart, DateTimeOffset.UtcNow, true);
-            });
-            var measurements = orchestrator.Start();
+            };
+           
+        }
 
-            channel.ShutdownAsync().Wait();
+        static void Main(string[] args)
+        {
+            var n = int.Parse(args[0]);
+            var concurrent = int.Parse(args[1]);
+
+            var requestsDone = 0;
+     
+            var orchestrator = new ThreadOrchestrator<Measurement>(n, concurrent, GrpcTest());
+            var measurements = orchestrator.Start().OrderBy(x=>x.Start);
+
+            var csvBuilder = new StringBuilder();
+            csvBuilder.Append("Start;DurationMs;Success");
+            csvBuilder.Append(Environment.NewLine);
+            foreach (var measurement in measurements)
+            {
+                csvBuilder.AppendFormat("{0};{1};{2}", measurement.Start.ToString(CultureInfo.InvariantCulture),
+                    measurement.Duration.TotalMilliseconds, measurement.IsSuccessfull ? "1" : "0");
+                csvBuilder.Append(Environment.NewLine);
+            }
+            File.WriteAllText("testResults.csv", csvBuilder.ToString());
+
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }

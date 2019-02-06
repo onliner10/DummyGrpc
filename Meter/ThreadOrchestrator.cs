@@ -12,8 +12,6 @@ namespace Meter
         private int _remaining;
         private readonly Func<TResult> _action;
 
-        private SemaphoreSlim _semaphore = new SemaphoreSlim(1,1);
-
         public ThreadOrchestrator(int n, int concurrent, Func<TResult> action)
         {
             N = n;
@@ -36,8 +34,8 @@ namespace Meter
                     resetEvent.Wait();
                     while (_remaining > 0)
                     {
-                        results.Enqueue(_action());
                         Interlocked.Decrement(ref _remaining);
+                        results.Enqueue(_action());
                     }
                 });
                 threads.Add(consumer);
