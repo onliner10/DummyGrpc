@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meter", "Meter\Meter.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyRest", "DummyRest\DummyRest.csproj", "{9E24F3CD-E13F-4B47-9798-629245072590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyGrpc", "DummyGrpc\DummyGrpc.csproj", "{9DE5F6C7-6B95-49A4-8BAB-05D77A3C5E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyGrpc", "DummyGrpc\DummyGrpc.csproj", "{9DE5F6C7-6B95-49A4-8BAB-05D77A3C5E88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyGrpc.Schema", "DummyGrpc.Schema\DummyGrpc.Schema.csproj", "{D04813CF-BE3D-4A78-A65C-4B00B934D518}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyGrpc.Schema", "DummyGrpc.Schema\DummyGrpc.Schema.csproj", "{D04813CF-BE3D-4A78-A65C-4B00B934D518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyRest.Schema", "DummyRest.Schema\DummyRest.Schema.csproj", "{02ACBBEA-C5FB-4E91-9C27-8AD18F80E9F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D04813CF-BE3D-4A78-A65C-4B00B934D518}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D04813CF-BE3D-4A78-A65C-4B00B934D518}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D04813CF-BE3D-4A78-A65C-4B00B934D518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02ACBBEA-C5FB-4E91-9C27-8AD18F80E9F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02ACBBEA-C5FB-4E91-9C27-8AD18F80E9F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02ACBBEA-C5FB-4E91-9C27-8AD18F80E9F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02ACBBEA-C5FB-4E91-9C27-8AD18F80E9F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
