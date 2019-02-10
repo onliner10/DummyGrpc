@@ -10,13 +10,13 @@ namespace DummyGrpc
         {
             return Task.FromResult(new TestReply()
             {
-                Prop1 = "this is the test string",
-                Prop2 = "1235 tr xzx eeef aasdsadasx",
-                Prop3 = "fdkfmsdlkfm rmfk fsdmklfs df ewr ewre fds",
-                Prop4 = Int32.MinValue,
-                Prop5 = Int32.MaxValue,
-                Prop6 = Int32.MaxValue / 7,
-                Prop7 = Double.MaxValue,
+                Prop1 = Guid.NewGuid().ToString(),
+                Prop2 = Guid.NewGuid().ToString(),
+                Prop3 = Guid.NewGuid().ToString(),
+                Prop4 = int.MinValue,
+                Prop5 = int.MaxValue,
+                Prop6 = int.MaxValue / 7,
+                Prop7 = double.MaxValue,
                 Prop8 = double.MinValue,
                 Prop9 = double.MaxValue / 7,
                 Prop10 = true,
@@ -35,7 +35,7 @@ namespace DummyGrpc
             var server = new Server
             {
                 Services = { DummyGrpcServer.BindService(new GrpcServer()) },
-                Ports = { new ServerPort("localhost", Port, ServerCredentials.Insecure) }
+                Ports = { new ServerPort("0.0.0.0", Port, ServerCredentials.Insecure) }
             };
             server.Start();
 

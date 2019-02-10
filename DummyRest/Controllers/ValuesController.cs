@@ -26,9 +26,9 @@ namespace DummyRest.Controllers
         {
             return new TestRestPoco()
             {
-                Prop1 = "this is the test string",
-                Prop2 = "1235 tr xzx eeef aasdsadasx",
-                Prop3 = "fdkfmsdlkfm rmfk fsdmklfs df ewr ewre fds",
+                Prop1 = Guid.NewGuid().ToString(),
+                Prop2 = Guid.NewGuid().ToString(),
+                Prop3 = Guid.NewGuid().ToString(),
                 Prop4 = Int32.MinValue,
                 Prop5 = Int32.MaxValue,
                 Prop6 = Int32.MaxValue / 7,

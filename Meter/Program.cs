@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,26 +15,27 @@ namespace Meter
             var testMethod = args[3] == "grpc" ? TestFunctions.GrpcTest(ip) : TestFunctions.RestTest(ip);
 
             Console.WriteLine("Warming up..");
-            new ThreadOrchestrator<Measurement>(100, 10, testMethod).Start();
+            new ThreadOrchestrator<Measurement>(2000, 100, testMethod).Start();
             Console.WriteLine("Warmup done");
 
             Console.WriteLine("Starting test");
+            var testStartTime = DateTimeOffset.UtcNow;
             var orchestrator = new ThreadOrchestrator<Measurement>(n, concurrent, testMethod);
             var measurements = orchestrator.Start().OrderBy(x=>x.Start);
 
             var csvBuilder = new StringBuilder();
-            csvBuilder.Append("Start;DurationMs;Success");
+            csvBuilder.Append("Start;DurationMs;Success;Error");
             csvBuilder.Append(Environment.NewLine);
+
             foreach (var measurement in measurements)
             {
-                csvBuilder.AppendFormat("{0};{1};{2}", measurement.Start.ToString(CultureInfo.InvariantCulture),
-                    measurement.Duration.TotalMilliseconds, measurement.IsSuccessfull ? "1" : "0");
+                csvBuilder.AppendFormat("{0};{1};{2};{3}", (measurement.Start - testStartTime).TotalMilliseconds,
+                    measurement.Duration.TotalMilliseconds, measurement.IsSuccessfull ? "1" : "0", measurement.ErrorReason ?? "");
                 csvBuilder.Append(Environment.NewLine);
             }
-            File.WriteAllText("testResults.csv", csvBuilder.ToString());
+            File.WriteAllText($"{args[3]}.csv", csvBuilder.ToString());
 
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+            Console.WriteLine("Experiment done!");
         }
     }
 }

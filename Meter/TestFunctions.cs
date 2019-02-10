@@ -23,9 +23,9 @@ namespace Meter
                 {
                     client.TestMethod(new TestRequest()
                     {
-                        Prop1 = "this is the test string",
-                        Prop2 = "1235 tr xzx eeef aasdsadasx",
-                        Prop3 = "fdkfmsdlkfm rmfk fsdmklfs df ewr ewre fds",
+                        Prop1 = Guid.NewGuid().ToString(),
+                        Prop2 = Guid.NewGuid().ToString(),
+                        Prop3 = Guid.NewGuid().ToString(),
                         Prop4 = Int32.MinValue,
                         Prop5 = Int32.MaxValue,
                         Prop6 = Int32.MaxValue / 7,
@@ -37,12 +37,13 @@ namespace Meter
                         Prop12 = true
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return new Measurement(measurementStart, DateTimeOffset.UtcNow, false);
+                    Console.WriteLine(ex.Message);
+                    return new Measurement(measurementStart, DateTimeOffset.UtcNow, ex.Message);
                 }
 
-                return new Measurement(measurementStart, DateTimeOffset.UtcNow, true);
+                return new Measurement(measurementStart, DateTimeOffset.UtcNow);
             };
         }
 
@@ -50,9 +51,9 @@ namespace Meter
         {
             var requestModel = new TestRequest()
             {
-                Prop1 = "this is the test string",
-                Prop2 = "1235 tr xzx eeef aasdsadasx",
-                Prop3 = "fdkfmsdlkfm rmfk fsdmklfs df ewr ewre fds",
+                Prop1 = Guid.NewGuid().ToString(),
+                Prop2 = Guid.NewGuid().ToString(),
+                Prop3 = Guid.NewGuid().ToString(),
                 Prop4 = Int32.MinValue,
                 Prop5 = Int32.MaxValue,
                 Prop6 = Int32.MaxValue / 7,
@@ -77,17 +78,20 @@ namespace Meter
                     r.RequestFormat = DataFormat.Json;
 
                     var response = client.Execute(r);
-                    if (response.StatusCode != HttpStatusCode.OK)
+                    if (!response.IsSuccessful)
                     {
-                        return new Measurement(measurementStart, DateTimeOffset.UtcNow, false);
+                        var error = $"Error: {response.ErrorMessage}, {response.StatusDescription}, {response.StatusCode}";
+                        Console.WriteLine(error);
+                        return new Measurement(measurementStart, DateTimeOffset.UtcNow, error);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return new Measurement(measurementStart, DateTimeOffset.UtcNow, false);
+                    Console.WriteLine(ex.Message);
+                    return new Measurement(measurementStart, DateTimeOffset.UtcNow, ex.Message);
                 }
 
-                return new Measurement(measurementStart, DateTimeOffset.UtcNow, true);
+                return new Measurement(measurementStart, DateTimeOffset.UtcNow);
             };
         }
 

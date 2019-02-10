@@ -2,7 +2,7 @@
   "profiles": {
     "Meter": {
       "commandName": "Project",
-      "commandLineArgs": "100 10 127.0.0.1 grpc"
+      "commandLineArgs": "200 100 127.0.0.1 rest"
     }
   }
 }
